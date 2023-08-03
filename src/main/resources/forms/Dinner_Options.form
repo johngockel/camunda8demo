@@ -1,0 +1,36 @@
+{
+  "components": [
+    {
+      "values": [
+        {
+          "label": "Chicken",
+          "value": "Chicken"
+        },
+        {
+          "label": "Salad",
+          "value": "Salad"
+        }
+      ],
+      "label": "What's for Dinner?",
+      "type": "select",
+      "layout": {
+        "row": "Row_093e8mo",
+        "columns": null
+      },
+      "id": "Field_0k8ofc1",
+      "key": "meal",
+      "validate": {
+        "required": true
+      }
+    }
+  ],
+  "type": "default",
+  "id": "Dinner_Options",
+  "executionPlatform": "Camunda Cloud",
+  "executionPlatformVersion": "8.2.0",
+  "exporter": {
+    "name": "Camunda Modeler",
+    "version": "5.13.0"
+  },
+  "schemaVersion": 9
+}

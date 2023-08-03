@@ -42,8 +42,8 @@
     <bpmn:startEvent id="StartEvent_1">
       <bpmn:outgoing>Flow_14q8rqk</bpmn:outgoing>
     </bpmn:startEvent>
-    <bpmn:sequenceFlow id="Flow_14q8rqk" sourceRef="StartEvent_1" targetRef="Activity_0gxxn82" />
-    <bpmn:userTask id="Activity_0gxxn82" name="Decide What&#39;s for dinner">
+    <bpmn:sequenceFlow id="Flow_14q8rqk" sourceRef="StartEvent_1" targetRef="decideMealTask" />
+    <bpmn:userTask id="decideMealTask" name="Decide What&#39;s for dinner">
       <bpmn:extensionElements>
         <zeebe:formDefinition formKey="camunda-forms:bpmn:userTaskForm_2voja5g" />
       </bpmn:extensionElements>
@@ -55,11 +55,11 @@
       <bpmn:outgoing>Flow_07vgoqw</bpmn:outgoing>
       <bpmn:outgoing>Flow_0pfq2ob</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_14tz9jf" sourceRef="Activity_0gxxn82" targetRef="Gateway_1xyebuo" />
-    <bpmn:sequenceFlow id="Flow_07vgoqw" name="Chicken" sourceRef="Gateway_1xyebuo" targetRef="Activity_04or513">
+    <bpmn:sequenceFlow id="Flow_14tz9jf" sourceRef="decideMealTask" targetRef="Gateway_1xyebuo" />
+    <bpmn:sequenceFlow id="Flow_07vgoqw" name="Chicken" sourceRef="Gateway_1xyebuo" targetRef="prepareChickenActivity">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=meal="Chicken"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="Flow_0pfq2ob" name="Salad" sourceRef="Gateway_1xyebuo" targetRef="Activity_036gz92">
+    <bpmn:sequenceFlow id="Flow_0pfq2ob" name="Salad" sourceRef="Gateway_1xyebuo" targetRef="prepareSaladActivity">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=meal="Salad"</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="Gateway_0tqsqzm">
@@ -67,25 +67,25 @@
       <bpmn:incoming>Flow_0i6fitx</bpmn:incoming>
       <bpmn:outgoing>Flow_16qye0w</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:sequenceFlow id="Flow_1w6xpxg" sourceRef="Activity_04or513" targetRef="Gateway_0tqsqzm" />
-    <bpmn:sequenceFlow id="Flow_0i6fitx" sourceRef="Activity_036gz92" targetRef="Gateway_0tqsqzm" />
-    <bpmn:sequenceFlow id="Flow_16qye0w" sourceRef="Gateway_0tqsqzm" targetRef="Activity_1kl3g0p" />
+    <bpmn:sequenceFlow id="Flow_1w6xpxg" sourceRef="prepareChickenActivity" targetRef="Gateway_0tqsqzm" />
+    <bpmn:sequenceFlow id="Flow_0i6fitx" sourceRef="prepareSaladActivity" targetRef="Gateway_0tqsqzm" />
+    <bpmn:sequenceFlow id="Flow_16qye0w" sourceRef="Gateway_0tqsqzm" targetRef="eatMealTask" />
     <bpmn:endEvent id="Event_0386ltp">
       <bpmn:incoming>Flow_1hdigcm</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:sequenceFlow id="Flow_1hdigcm" sourceRef="Activity_1kl3g0p" targetRef="Event_0386ltp" />
-    <bpmn:userTask id="Activity_1kl3g0p" name="Eat Meal">
+    <bpmn:sequenceFlow id="Flow_1hdigcm" sourceRef="eatMealTask" targetRef="Event_0386ltp" />
+    <bpmn:userTask id="eatMealTask" name="Eat Meal">
       <bpmn:incoming>Flow_16qye0w</bpmn:incoming>
       <bpmn:outgoing>Flow_1hdigcm</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:serviceTask id="Activity_04or513" name="Prep Chicken">
+    <bpmn:serviceTask id="prepareChickenActivity" name="Prep Chicken">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="prep-chicken" />
       </bpmn:extensionElements>
       <bpmn:incoming>Flow_07vgoqw</bpmn:incoming>
       <bpmn:outgoing>Flow_1w6xpxg</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:serviceTask id="Activity_036gz92" name="Prep Salad">
+    <bpmn:serviceTask id="prepareSaladActivity" name="Prep Salad">
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="prep-salad" />
       </bpmn:extensionElements>
@@ -102,7 +102,7 @@
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
         <dc:Bounds x="179" y="199" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1ca39jv_di" bpmnElement="Activity_0gxxn82">
+      <bpmndi:BPMNShape id="Activity_1ca39jv_di" bpmnElement="decideMealTask">
         <dc:Bounds x="270" y="177" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
@@ -115,13 +115,13 @@
       <bpmndi:BPMNShape id="Event_0386ltp_di" bpmnElement="Event_0386ltp">
         <dc:Bounds x="1012" y="199" width="36" height="36" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0fk5uk7_di" bpmnElement="Activity_1kl3g0p">
+      <bpmndi:BPMNShape id="Activity_0fk5uk7_di" bpmnElement="eatMealTask">
         <dc:Bounds x="830" y="177" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_1xo3sj4_di" bpmnElement="Activity_04or513">
+      <bpmndi:BPMNShape id="Activity_1xo3sj4_di" bpmnElement="prepareChickenActivity">
         <dc:Bounds x="530" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Activity_0jx6tjn_di" bpmnElement="Activity_036gz92">
+      <bpmndi:BPMNShape id="Activity_0jx6tjn_di" bpmnElement="prepareSaladActivity">
         <dc:Bounds x="530" y="280" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="TextAnnotation_0f623uf_di" bpmnElement="TextAnnotation_0f623uf">
